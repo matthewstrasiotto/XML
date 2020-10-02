@@ -3108,11 +3108,22 @@ fi
 
 if test -n "" ; then
 
+  NO_ECHO_CMD="--no-echo"
+
+  # Will echo the following:
+  # > R.version$major
+  # [1] "3"
+  # this extracts the "3" from the quotes
+  R_MAJOR_VERSION="$(R --vanilla --quiet -e 'R.version$major' | cut  -sd'"' -f2 )" 
+  # '
+
+  test "$R_MAJOR_VERSION" -lt 4 && NO_ECHO_CMD="--slave"
+
   # turned off for now
   #XXX get the redirection correct
 "$R_HOME/bin/R" CMD SHLIB testRemoveFinalizers.c &> 6
 if test "$?" = 0 ;  then
- $R_HOME/bin/R --no-echo --vanilla < testRemoveFinalizers.R &> 6
+ $R_HOME/bin/R $NO_ECHO_CMD --vanilla < testRemoveFinalizers.R &> 6
 fi
 
 if ! test "$?" = 0 ; then

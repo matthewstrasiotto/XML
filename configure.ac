@@ -120,6 +120,16 @@ AC_ARG_WITH(xmlsec, [  --with-xmlsec           add support (experimental) for XM
 
 dnl
 
+NO_ECHO_CMD="--no-echo"
+
+# Will echo the following:
+# > R.version$major
+# [1] "3"
+# this extracts the "3" from the quotes
+R_MAJOR_VERSION="$(R --vanilla --quiet -e 'R.version$major' | cut  -sd'"' -f2 )" 
+# '
+
+test "$R_MAJOR_VERSION" -lt 4 && NO_ECHO_CMD="--slave"
 
 dnl Redirection: http://tldp.org/HOWTO/Bash-Prog-Intro-HOWTO-3.html
 if test -n "" ; then
@@ -128,7 +138,7 @@ if test -n "" ; then
   #XXX get the redirection correct
 "$R_HOME/bin/R" CMD SHLIB testRemoveFinalizers.c &> AS_MESSAGE_FD
 if test "$?" = 0 ;  then
- $R_HOME/bin/R --no-echo --vanilla < testRemoveFinalizers.R &> AS_MESSAGE_FD
+ $R_HOME/bin/R $NO_ECHO_CMD --vanilla < testRemoveFinalizers.R &> AS_MESSAGE_FD
 fi
 
 if ! test "$?" = 0 ; then

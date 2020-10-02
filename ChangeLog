@@ -1,3 +1,22 @@
+Version 3.99-0.6
+
+  *     Configure scripts check R major version, and use the appropiate switch 
+	 `--no-echo`, for R>=4.0.0, or `--slave` for R<4.0.0
+  *     Minimum R version reduced to 2.13.0
+
+Version 3.99-0.5
+
+  *     Change undocumented.
+
+Version 3.99-0.4
+
+  *     Configure script now calls `R --no-echo`, rather than `R --slave`,
+	 (API as of R 4.0.0). As a result, requires R>=4.0.0
+
+Version 3.99-0.1, 0.2, 0.3
+
+  *     Changes undocumented
+
 Version 3.99-0
 
   *      We can specify R functions and C routines for use as XPath
